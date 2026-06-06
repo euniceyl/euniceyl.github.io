@@ -1,0 +1,14 @@
+<style>
+  /* Talks & Software: reliable 2-column card grid (Tailwind dynamic cols can miss build) */
+  #section-collection .grid {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    #section-collection .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

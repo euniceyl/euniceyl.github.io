@@ -1,0 +1,63 @@
+{{ define "main" }}
+<div class="pub-listing mx-auto max-w-5xl px-6 py-8">
+  <h1 class="mb-10 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title }}</h1>
+
+  {{ range .Pages.ByDate.Reverse.GroupByDate "2006" }}
+  <section class="mb-12">
+    <h2 class="mb-6 border-b border-gray-300 pb-2 text-3xl font-bold text-gray-900 dark:border-gray-600 dark:text-white">
+      {{ .Key }}
+    </h2>
+
+    {{ range .Pages }}
+      {{ $page := . }}
+      {{ $pub := partial "functions/resolve_publication.html" $page }}
+      {{ $image := partial "functions/get_featured_image.html" $page }}
+      {{ $year := ($page.Date.Format "2006") }}
+      {{ $doi := $page.Params.doi }}
+      {{ with $page.Params.hugoblox.ids.doi }}{{ $doi = . }}{{ end }}
+      {{ $title_link := $page.RelPermalink }}
+      {{ with $doi }}
+        {{ $title_link = printf "https://doi.org/%s" . }}
+      {{ else }}
+        {{ range first 1 $page.Params.links }}
+          {{ with .url }}{{ $title_link = . }}{{ end }}
+        {{ end }}
+      {{ end }}
+      {{ $title_target := "" }}
+      {{ if or $doi (ne $title_link $page.RelPermalink) }}{{ $title_target = `target="_blank" rel="noopener"` }}{{ end }}
+
+      <article class="pub-listing-item mb-8 flex flex-col gap-4 sm:flex-row sm:items-start">
+        {{ with $image }}
+        <a href="{{ $title_link }}" {{ $title_target | safeHTMLAttr }} class="shrink-0">
+          <img
+            src="{{ .RelPermalink }}"
+            alt="{{ $page.Title | plainify }}"
+            class="h-auto w-full max-w-[140px] rounded-md border border-gray-200 object-cover dark:border-gray-700"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        {{ end }}
+
+        <div class="min-w-0 flex-1">
+          <h3 class="mb-1 text-lg font-semibold leading-snug">
+            <a href="{{ $title_link }}" {{ $title_target | safeHTMLAttr }} class="font-bold text-gray-900 underline decoration-gray-400 underline-offset-2 hover:decoration-gray-900 dark:text-white dark:hover:decoration-white">
+              {{ $page.Title | markdownify }}
+            </a>
+          </h3>
+
+          <p class="mb-1 text-sm text-gray-700 dark:text-gray-300">
+            {{ partial "pub_list_authors.html" $page }}
+          </p>
+
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            {{ with $pub.display_short }}{{ . | markdownify }}{{ else }}{{ with $pub.display }}{{ . | markdownify }}{{ end }}{{ end }}{{ with $pub.publisher }}, {{ . | markdownify }}{{ end }}
+            {{ if or $pub.display_short $pub.display $pub.publisher }} ({{ $year }}){{ end }}
+          </p>
+        </div>
+      </article>
+    {{ end }}
+  </section>
+  {{ end }}
+</div>
+{{ end }}

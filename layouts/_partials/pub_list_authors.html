@@ -1,0 +1,20 @@
+{{/* Publication listing authors — bold name for site owner (slug: me). */}}
+{{- $authors := .Params.authors -}}
+{{ if $authors }}
+  {{- if not (reflect.IsSlice $authors) -}}
+    {{- $authors = slice $authors -}}
+  {{- end -}}
+  {{ range $index, $raw := $authors }}
+    {{- $slug := $raw | urlize -}}
+    {{- $profile := partial "functions/get_author_profile" (dict "slug" $slug "title" $raw) -}}
+    {{- $display := $profile.title | default $raw -}}
+    {{- $is_me := or (eq $slug "me") (eq $profile.slug "me") -}}
+    {{- if gt $index 0 }}, {{ end -}}
+    <span>{{ if $is_me }}<strong>{{ $display }}</strong>{{ else }}{{ $display }}{{ end }}</span>
+    {{- if isset $.Params "author_notes" -}}
+      {{- with (index $.Params.author_notes $index) -}}
+        <sup>*</sup>
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

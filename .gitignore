@@ -37,6 +37,9 @@ node_modules/
 .env.local
 .env.*.local
 
+# Local dev tools (e.g. Hugo binary installed outside PATH)
+.tools/
+
 # ============================================================================
 # Generated Content
 # ============================================================================
