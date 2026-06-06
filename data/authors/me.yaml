@@ -15,12 +15,15 @@ links:
   - icon: at-symbol
     url: mailto:eunice_lee@hms.harvard.edu
     label: E-mail
-  - icon: brands/github
-    url: https://github.com/euniceyl
-    label: GitHub
-  - icon: brands/linkedin
-    url: https://www.linkedin.com/in/eunice-lee-3ba87553/
-    label: LinkedIn
   - icon: academicons/google-scholar
     url: https://scholar.google.com/citations?user=O_CzzewAAAAJ&hl=en
     label: Google Scholar
+  - icon: brands/linkedin
+    url: https://www.linkedin.com/in/eunice-lee-3ba87553/
+    label: LinkedIn
+  - icon: brands/github
+    url: https://github.com/euniceyl
+    label: GitHub
+  - icon: brands/medium
+    url: https://medium.com/@prodbyeunice
+    label: Medium

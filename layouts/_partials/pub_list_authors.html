@@ -1,4 +1,4 @@
-{{/* Publication listing authors — bold name for site owner (slug: me). */}}
+{{/* Publication listing authors — bold owner name; blue + asterisk when first or co-first author. */}}
 {{- $authors := .Params.authors -}}
 {{ if $authors }}
   {{- if not (reflect.IsSlice $authors) -}}
@@ -9,9 +9,20 @@
     {{- $profile := partial "functions/get_author_profile" (dict "slug" $slug "title" $raw) -}}
     {{- $display := $profile.title | default $raw -}}
     {{- $is_me := or (eq $slug "me") (eq $profile.slug "me") -}}
-    {{- if gt $index 0 }}, {{ end -}}
-    <span>{{ if $is_me }}<strong>{{ $display }}</strong>{{ else }}{{ $display }}{{ end }}</span>
+    {{- $author_note := "" -}}
     {{- if isset $.Params "author_notes" -}}
+      {{- $author_note = index $.Params.author_notes $index | default "" | strings.TrimSpace -}}
+    {{- end -}}
+    {{- $is_me_highlighted := and $is_me (or (eq $index 0) (ne $author_note "")) -}}
+    {{- if gt $index 0 }}, {{ end -}}
+    {{- if $is_me_highlighted -}}
+      <span class="pub-first-author font-bold text-primary-600 dark:text-primary-400">{{ $display }}<sup class="text-primary-600 dark:text-primary-400">*</sup></span>
+    {{- else if $is_me -}}
+      <span><strong>{{ $display }}</strong></span>
+    {{- else -}}
+      <span>{{ $display }}</span>
+    {{- end -}}
+    {{- if and (not $is_me_highlighted) (isset $.Params "author_notes") -}}
       {{- with (index $.Params.author_notes $index) -}}
         <sup>*</sup>
       {{- end -}}
