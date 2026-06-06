@@ -33,6 +33,8 @@ cascade:
 
 build:
   writeStats: true
+  # Stop Hugo from rewriting assets/jsconfig.json on each rebuild (avoids dev-server panic loop)
+  noJSConfigInAssets: true
 enableGitInfo: false
 summaryLength: 30
 pagination:
