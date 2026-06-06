@@ -24,7 +24,7 @@ hugoblox:
     description: "Associate of Biomedical Informatics at Harvard Medical School."
     # Social accounts (used for meta tags like Twitter Cards)
     social:
-      twitter: "GoOwnable" # Twitter/X handle for Twitter Cards (without @)
+      twitter: "" # optional — set your @handle for Twitter/X cards
 
   # ────────────────────────────────────────────────────────────────────────────
   # THEME

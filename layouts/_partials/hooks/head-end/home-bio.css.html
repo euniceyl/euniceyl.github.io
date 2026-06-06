@@ -4,6 +4,19 @@
     display: none !important;
   }
 
+  /* Tighter hero spacing (theme default py-32 is very tall) */
+  #section-resume-biography-3 .resume-biography {
+    padding-top: 2rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  @media (min-width: 768px) {
+    #section-resume-biography-3 .resume-biography {
+      padding-top: 2.5rem !important;
+      padding-bottom: 3rem !important;
+    }
+  }
+
   /* Two-column layout: profile (left) + bio (right) */
   @media (min-width: 768px) {
     #section-resume-biography-3 .max-w-7xl > .grid {

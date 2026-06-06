@@ -9,11 +9,8 @@ sections:
   - block: resume-biography-3
     content:
       username: me
-      text: ''
       headings:
-        about: ''
-        education: ''
-        interests: ''
+        about: ' '
     design:
       show_status: false
       background:
