@@ -77,20 +77,35 @@ jobs:
         echo "HUGO_VERSION=$VERSION" >> $GITHUB_ENV
         echo "Using Hugo version: $VERSION"
 
+    # Restore caches before installing deps so a stale node_modules cache
+    # cannot overwrite a fresh install (breaks Tailwind on Linux with pnpm).
+    - uses: actions/cache@v5
+      with:
+        path: |
+          /tmp/hugo_cache_runner/
+          node_modules/
+          modules/*/node_modules/
+        key: ${{ runner.os }}-hugo-deps-v2-${{ hashFiles('**/go.mod', '**/package-lock.json', '**/pnpm-lock.yaml', '.npmrc') }}
+        restore-keys: |
+          ${{ runner.os }}-hugo-deps-v2-
+
+    - uses: actions/cache@v5
+      with:
+        path: resources/
+        key: ${{ runner.os }}-hugo-resources-v2-${{ hashFiles('assets/**/*', 'config/**/*', 'hugo.yaml', 'package.json', '.npmrc') }}
+        restore-keys: |
+          ${{ runner.os }}-hugo-resources-v2-
+
     - name: Install dependencies
       run: |
         # Install Tailwind CLI if package.json exists
         if [ -f "package.json" ]; then
           echo "Installing Tailwind dependencies..."
+          rm -rf node_modules
           pnpm install --no-frozen-lockfile || npm install
         fi
 
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.22'
-
-    - name: Verify Tailwind CSS dependency
+    - name: Verify Tailwind executable
       if: hashFiles('package.json') != ''
       run: |
         if ! node -e "require.resolve('@tailwindcss/cli/package.json')" 2>/dev/null; then
@@ -99,36 +114,16 @@ jobs:
           echo "::error::See https://github.com/HugoBlox/kit for upgrade instructions."
           exit 1
         fi
+        if head -1 node_modules/.bin/tailwindcss | grep -q "pnpm"; then
+          echo "::error::tailwindcss is a pnpm shell wrapper; Hugo needs a Node script. Check .npmrc prefer-symlinked-executables=true"
+          exit 1
+        fi
 
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v3
       with:
         hugo-version: ${{ env.HUGO_VERSION }}
         extended: true
-
-    - name: Verify Hugo modules
-      run: hugo mod verify
-
-    # Cache dependencies (Go modules, node_modules) - stable, rarely changes
-    - uses: actions/cache@v5
-      with:
-        path: |
-          /tmp/hugo_cache_runner/
-          node_modules/
-          modules/*/node_modules/
-        key: ${{ runner.os }}-hugo-deps-${{ hashFiles('**/go.mod', '**/package-lock.json',
-          '**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-hugo-deps-
-
-    # Cache Hugo resources (processed images, CSS) - invalidates only when assets/config change
-    - uses: actions/cache@v5
-      with:
-        path: resources/
-        key: ${{ runner.os }}-hugo-resources-${{ hashFiles('assets/**/*', 'config/**/*',
-          'hugo.yaml', 'package.json') }}
-        restore-keys: |
-          ${{ runner.os }}-hugo-resources-
 
     - name: Setup Pages
       id: pages
@@ -140,7 +135,8 @@ jobs:
         HUGO_BLOX_LICENSE: ${{ secrets.HUGO_BLOX_LICENSE }}
       run: |
         echo "Hugo Cache Dir: $(hugo config | grep cachedir)"
-        hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        echo "Tailwind binary: $(file node_modules/.bin/tailwindcss || true)"
+        hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/" --logLevel info
 
     - name: Generate Pagefind search index (if applicable)
       run: |
