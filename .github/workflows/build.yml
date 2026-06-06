@@ -44,10 +44,6 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: Setup pnpm
-      if: hashFiles('package.json') != ''
-      uses: pnpm/action-setup@v6
-
     - name: Get Hugo Version
       id: hugo-version
       run: |
@@ -77,45 +73,21 @@ jobs:
         echo "HUGO_VERSION=$VERSION" >> $GITHUB_ENV
         echo "Using Hugo version: $VERSION"
 
-    # Restore caches before installing deps so a stale node_modules cache
-    # cannot overwrite a fresh install (breaks Tailwind on Linux with pnpm).
-    - uses: actions/cache@v5
-      with:
-        path: |
-          /tmp/hugo_cache_runner/
-          node_modules/
-          modules/*/node_modules/
-        key: ${{ runner.os }}-hugo-deps-v2-${{ hashFiles('**/go.mod', '**/package-lock.json', '**/pnpm-lock.yaml', '.npmrc') }}
-        restore-keys: |
-          ${{ runner.os }}-hugo-deps-v2-
-
-    - uses: actions/cache@v5
-      with:
-        path: resources/
-        key: ${{ runner.os }}-hugo-resources-v2-${{ hashFiles('assets/**/*', 'config/**/*', 'hugo.yaml', 'package.json', '.npmrc') }}
-        restore-keys: |
-          ${{ runner.os }}-hugo-resources-v2-
-
     - name: Install dependencies
       run: |
-        # Install Tailwind CLI if package.json exists
+        # npm (not pnpm) — Hugo's css.TailwindCSS needs a real Node script on Linux CI
         if [ -f "package.json" ]; then
           echo "Installing Tailwind dependencies..."
-          rm -rf node_modules
-          pnpm install --no-frozen-lockfile || npm install
+          npm install
         fi
 
-    - name: Verify Tailwind executable
+    - name: Verify Tailwind CSS dependency
       if: hashFiles('package.json') != ''
       run: |
         if ! node -e "require.resolve('@tailwindcss/cli/package.json')" 2>/dev/null; then
           echo "::error title=Missing dependency '@tailwindcss/cli'::Hugo >= 0.161.0 requires the npm @tailwindcss/cli package. Add it to package.json:"
-          echo "::error::  pnpm add @tailwindcss/cli tailwindcss"
+          echo "::error::  npm install @tailwindcss/cli tailwindcss"
           echo "::error::See https://github.com/HugoBlox/kit for upgrade instructions."
-          exit 1
-        fi
-        if head -1 node_modules/.bin/tailwindcss | grep -q "pnpm"; then
-          echo "::error::tailwindcss is a pnpm shell wrapper; Hugo needs a Node script. Check .npmrc prefer-symlinked-executables=true"
           exit 1
         fi
 
@@ -134,15 +106,14 @@ jobs:
         HUGO_ENVIRONMENT: production
         HUGO_BLOX_LICENSE: ${{ secrets.HUGO_BLOX_LICENSE }}
       run: |
-        echo "Hugo Cache Dir: $(hugo config | grep cachedir)"
-        echo "Tailwind binary: $(file node_modules/.bin/tailwindcss || true)"
-        hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/" --logLevel info
+        rm -rf resources
+        hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
     - name: Generate Pagefind search index (if applicable)
       run: |
         # Check if site uses Pagefind search
         if [ -f "package.json" ] && grep -q "pagefind" package.json; then
-          pnpm run pagefind || npx pagefind --site "public"
+          npx pagefind --site "public"
         fi
 
     - name: Upload artifact

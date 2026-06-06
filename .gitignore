@@ -12,6 +12,9 @@ public/
 # Hugo resources (processed assets)
 resources/
 
+# Vendored Hugo modules (use hugo mod / CI download instead)
+_vendor/
+
 # Hugo build lock
 .hugo_build.lock
 
