@@ -1,0 +1,108 @@
+<style>
+  .software-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .software-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .software-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(229 231 235);
+    background: rgb(255 255 255);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  }
+
+  .dark .software-card {
+    border-color: rgb(55 65 81);
+    background: rgb(17 24 39);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+  }
+
+  .software-card-media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: rgb(243 244 246);
+  }
+
+  .dark .software-card-media {
+    background: rgb(31 41 55);
+  }
+
+  .software-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .software-card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: rgb(156 163 175);
+  }
+
+  .software-card-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .software-card-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: rgb(30 58 95);
+  }
+
+  .dark .software-card-title {
+    color: rgb(147 197 253);
+  }
+
+  .software-card-tagline {
+    margin: 0.75rem 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgb(55 65 81);
+  }
+
+  .dark .software-card-tagline {
+    color: rgb(209 213 219);
+  }
+
+  .software-card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .software-card-link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgb(55 65 81);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .software-card-link:hover {
+    color: rgb(17 24 39);
+  }
+
+  .dark .software-card-link {
+    color: rgb(209 213 219);
+  }
+
+  .dark .software-card-link:hover {
+    color: rgb(255 255 255);
+  }
+</style>

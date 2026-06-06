@@ -1,0 +1,25 @@
+{{/* Extract YouTube video ID from a URL. Input: URL string. Output: ID or empty. */}}
+{{ $url := strings.TrimSpace (printf "%v" .) }}
+{{ $id := "" }}
+{{ if $url }}
+  {{ if strings.Contains $url "youtu.be/" }}
+    {{ $path := strings.TrimPrefix "https://youtu.be/" $url }}
+    {{ $path = strings.TrimPrefix "http://youtu.be/" $path }}
+    {{ $id = index (split $path "?") 0 }}
+  {{ else if strings.Contains $url "youtube.com/" }}
+    {{ with urls.Parse $url }}
+      {{ $id = .Query.Get "v" }}
+      {{ if not $id }}
+        {{ $parts := split (strings.TrimPrefix "/" .Path) "/" }}
+        {{ if ge (len $parts) 2 }}
+          {{ if eq (index $parts 0) "embed" }}
+            {{ $id = index $parts 1 }}
+          {{ else if eq (index $parts 0) "shorts" }}
+            {{ $id = index $parts 1 }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $id }}

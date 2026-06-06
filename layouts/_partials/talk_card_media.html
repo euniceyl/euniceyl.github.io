@@ -1,0 +1,51 @@
+{{ $page := . }}
+{{ $video_url := partial "talk_video_url.html" $page }}
+{{ $youtube_id := partial "talk_youtube_id.html" $video_url }}
+{{ $slides_embed := strings.TrimSpace (printf "%v" ($page.Params.slides_embed | default "")) }}
+{{ $slides_slug := strings.TrimSpace (printf "%v" ($page.Params.slides | default "")) }}
+{{ $featured := partial "functions/get_featured_image.html" $page }}
+
+{{ if $youtube_id }}
+  <div class="talk-embed talk-embed--video">
+    <iframe
+      src="https://www.youtube.com/embed/{{ $youtube_id }}"
+      title="{{ $page.Title | plainify }}"
+      class="talk-embed-frame"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+{{ else if $slides_embed }}
+  <div class="talk-embed talk-embed--slides">
+    <iframe
+      src="{{ $slides_embed | safeURL }}"
+      title="{{ $page.Title | plainify }}"
+      class="talk-embed-frame"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+{{ else if $slides_slug }}
+  {{ partial "components/slides-embed.html" (dict "page" $page "slides_slug" $slides_slug "show_actions" false "title" ($page.Title | plainify)) }}
+{{ else if $featured }}
+  <figure class="talk-poster">
+    {{ $poster_link := $page.RelPermalink }}
+    {{ range first 1 $page.Params.links }}
+      {{ with .url }}{{ $poster_link = . }}{{ end }}
+    {{ end }}
+    <a href="{{ $poster_link }}" class="talk-poster-link">
+      <img
+        src="{{ $featured.RelPermalink }}"
+        alt="{{ $page.Title | plainify }}"
+        class="talk-poster-image"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  </figure>
+{{ else }}
+  <div class="talk-card-placeholder" aria-hidden="true">
+    {{ partial "functions/get_icon" (dict "name" "presentation-chart-bar" "attributes" "class=\"h-12 w-12\"") }}
+  </div>
+{{ end }}

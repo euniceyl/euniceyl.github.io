@@ -1,0 +1,61 @@
+{{/* Software panel card — image, title, tagline, Docs & Code links. */}}
+{{ $page := . }}
+{{ $image := partial "functions/get_featured_image.html" $page }}
+{{ $tagline := $page.Params.summary | default $page.Params.description | default "" }}
+{{ with $page.Params.software }}
+  {{ with .tagline }}{{ $tagline = . }}{{ end }}
+{{ end }}
+
+{{ $docs_url := "" }}
+{{ $code_url := "" }}
+{{ with $page.Params.software }}
+  {{ with .docs }}{{ $docs_url = . }}{{ end }}
+  {{ with .docs_url }}{{ $docs_url = . }}{{ end }}
+  {{ with .code }}{{ $code_url = . }}{{ end }}
+  {{ with .code_url }}{{ $code_url = . }}{{ end }}
+{{ end }}
+{{ range $page.Params.links }}
+  {{ $name := lower (printf "%v" (.name | default "")) }}
+  {{ if and (not $docs_url) (or (eq $name "docs") (eq $name "documentation")) }}
+    {{ with .url }}{{ $docs_url = . }}{{ end }}
+  {{ end }}
+  {{ if and (not $code_url) (or (eq $name "code") (eq $name "github")) }}
+    {{ with .url }}{{ $code_url = . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+<article class="software-card">
+  <div class="software-card-media">
+    {{ with $image }}
+    <img
+      src="{{ .RelPermalink }}"
+      alt="{{ $page.Title | plainify }}"
+      class="software-card-image"
+      loading="lazy"
+      decoding="async"
+    />
+    {{ else }}
+    <div class="software-card-placeholder" aria-hidden="true">
+      {{ partial "functions/get_icon" (dict "name" "code-bracket" "attributes" "class=\"h-12 w-12\"") }}
+    </div>
+    {{ end }}
+  </div>
+
+  <div class="software-card-body">
+    <h2 class="software-card-title">{{ $page.Title }}</h2>
+    {{ with $tagline }}
+    <p class="software-card-tagline">{{ . | plainify }}</p>
+    {{ end }}
+
+    {{ if or $docs_url $code_url }}
+    <div class="software-card-links">
+      {{ with $docs_url }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="software-card-link">Docs</a>
+      {{ end }}
+      {{ with $code_url }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="software-card-link">Code</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+</article>

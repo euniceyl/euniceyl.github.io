@@ -1,0 +1,47 @@
+{{/* Talk card for /talks/ grid — header label + embedded media. */}}
+{{ $page := . }}
+{{ $event := $page.Params.event | default dict }}
+{{ if not (reflect.IsMap $event) }}{{ $event = dict }}{{ end }}
+
+{{ $kind := $event.kind | default "" | lower }}
+{{ $event_name := $event.name | default "" }}
+{{ $event_year := $event.year | default ($page.Date.Format "2006") }}
+
+{{ $kind_labels := dict
+  "oral" "Oral Presentation"
+  "paper" "Paper Presentation"
+  "poster" "Poster Presentation"
+  "invited" "Invited Talk"
+  "thesis" "Thesis Defense"
+}}
+{{ $kind_label := index $kind_labels $kind | default "Presentation" }}
+
+{{ $video_url := partial "talk_video_url.html" $page }}
+
+{{ $card_label := "" }}
+{{ with $event.label }}{{ $card_label = . }}{{ end }}
+{{ if not $card_label }}
+  {{ if $event_name }}
+    {{ $card_label = printf "%s @ %s %v" $kind_label $event_name $event_year }}
+  {{ else }}
+    {{ $card_label = printf "%s (%v)" $kind_label $event_year }}
+  {{ end }}
+{{ end }}
+
+{{ $is_poster := or (eq $kind "poster") (and (not $page.Params.slides) (not $page.Params.slides_embed) (not $video_url)) }}
+
+<article class="talk-card">
+  <header class="talk-card-header">
+    <h2 class="talk-card-label">{{ $card_label }}</h2>
+    {{ with $page.Title }}
+    <p class="talk-card-title">{{ . | plainify }}</p>
+    {{ end }}
+    {{ with $event.venue }}
+    <p class="talk-card-venue">{{ . | plainify }}</p>
+    {{ end }}
+  </header>
+
+  <div class="talk-card-media{{ if $is_poster }} talk-card-media--poster{{ end }}">
+    {{ partial "talk_card_media.html" $page }}
+  </div>
+</article>

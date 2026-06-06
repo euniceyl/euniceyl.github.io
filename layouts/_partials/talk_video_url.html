@@ -1,0 +1,17 @@
+{{/* Resolve a YouTube (or type: video) URL from talk front matter. Returns URL string or empty. */}}
+{{ $video_url := "" }}
+{{ with .Params.video }}
+  {{ if reflect.IsMap . }}
+    {{ with .url }}{{ $video_url = strings.TrimSpace (printf "%v" .) }}{{ end }}
+  {{ else }}
+    {{ $video_url = strings.TrimSpace (printf "%v" .) }}
+  {{ end }}
+{{ end }}
+{{ if not $video_url }}
+  {{ range .Params.links }}
+    {{ if and (not $video_url) (or (eq .type "video") (eq .type "youtube")) }}
+      {{ with .url }}{{ $video_url = strings.TrimSpace (printf "%v" .) }}{{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $video_url }}

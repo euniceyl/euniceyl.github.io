@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="software-listing mx-auto max-w-6xl px-6 py-8">
+  <h1 class="mb-10 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title }}</h1>
+
+  {{ if gt (len .Pages) 0 }}
+  <div class="software-grid">
+    {{ range .Pages.ByDate.Reverse }}
+      {{ partial "software_card.html" . }}
+    {{ end }}
+  </div>
+  {{ else }}
+  <p class="text-gray-600 dark:text-gray-400">Software projects will appear here.</p>
+  {{ end }}
+</div>
+{{ end }}
