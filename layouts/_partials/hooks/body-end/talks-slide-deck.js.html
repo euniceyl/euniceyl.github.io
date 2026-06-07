@@ -1,0 +1,55 @@
+<script>
+(function () {
+  function initDeck(deck) {
+    var slides = deck.querySelectorAll(".talk-slide-deck-image");
+    if (!slides.length) return;
+
+    var index = 0;
+    var prevBtn = deck.querySelector("[data-slide-prev]");
+    var nextBtn = deck.querySelector("[data-slide-next]");
+    var currentEl = deck.querySelector("[data-slide-current]");
+
+    function render() {
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle("is-hidden", i !== index);
+      });
+      if (currentEl) currentEl.textContent = String(index + 1);
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index === slides.length - 1;
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        if (index > 0) {
+          index -= 1;
+          render();
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        if (index < slides.length - 1) {
+          index += 1;
+          render();
+        }
+      });
+    }
+
+    deck.addEventListener("keydown", function (event) {
+      if (event.key === "ArrowLeft" && index > 0) {
+        index -= 1;
+        render();
+      }
+      if (event.key === "ArrowRight" && index < slides.length - 1) {
+        index += 1;
+        render();
+      }
+    });
+
+    render();
+  }
+
+  document.querySelectorAll("[data-talk-slide-deck]").forEach(initDeck);
+})();
+</script>
