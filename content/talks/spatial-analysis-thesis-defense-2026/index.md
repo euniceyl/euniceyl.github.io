@@ -7,7 +7,7 @@ event:
   name: Duke University
   year: 2026
   label: "Bachelor's Thesis Defense @ Duke University"
-  venue: "Department of Statistical Science · Duke University · Durham, NC"
+  venue: "Duke University Department of Statistical Science · Durham, NC"
 links:
   - type: site
     url: https://stat.duke.edu/events/eunice-yewon-lees-gwd-thesis-presentation
