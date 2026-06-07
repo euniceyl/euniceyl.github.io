@@ -32,16 +32,21 @@ experience:
     location: Boston, MA
     start: Jun 2025
     role: Undergraduate research fellow @ Department of Biomedical Informatics
-  - org: Bass Connections, Duke-UNC Brain Imaging and Analysis Center x Durham VA Healthcare Center
+  - org: Bass Connections, Duke-UNC Brain Imaging & Analysis Center x Durham VA Healthcare Center
     location: Durham, NC
     start: Jun 2023
     end: Apr 2026
-    role: Clinical trial assistant @ Duke Medicine Department of Psychiatry and Behavioral Sciences
-  - org: Hagood Lab x LOCI Lab, Chan Zuckerberg Initiative
-    location: Chapel Hill, NC & Richmond, VA
+    role: Clinical trial assistant @ Department of Psychiatry & Behavioral Sciences
+  - org: Marsico Lung Institute, UNC School of Medicine
+    location: Chapel Hill, NC
+    start: Feb 2025
+    end: Oct 2025
+    role: Project contributor @ Chan Zuckerberg Initiative
+  - org: Lab of Oral & Craniofacial Innovation, VCU Philips Institute for Oral Health Research
+    location: Richmond, VA
     start: Feb 2025
     end: Dec 2025
-    role: Bioinformatics research assistant @ Philips Institute for Oral Health Research
+    role: Bioinformatics research assistant @ School of Dentistry
   - org: Angelo Lab, Stanford Medicine
     location: Palo Alto, CA
     start: Dec 2024
@@ -51,8 +56,8 @@ experience:
     location: Palo Alto, CA
     start: Jun 2019
     end: Dec 2024
-    role: Epidemiology research intern @ Division of Gastroenterology and Hepatology
-  - org: Machine Learning and Fluid Mechanics Lab, Kyungpook National University
+    role: Epidemiology research intern @ Division of Gastroenterology & Hepatology
+  - org: Machine Learning & Fluid Mechanics Lab, Kyungpook National University
     location: Daegu, South Korea
     start: Jun 2020
     end: Aug 2020

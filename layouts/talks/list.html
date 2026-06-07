@@ -1,15 +1,36 @@
 {{ define "main" }}
+{{ $demo_pages := slice }}
+{{ $talk_pages := slice }}
+{{ range .Pages.ByWeight }}
+  {{ if eq (.Params.listing | default "talks") "demos" }}
+    {{ $demo_pages = $demo_pages | append . }}
+  {{ else }}
+    {{ $talk_pages = $talk_pages | append . }}
+  {{ end }}
+{{ end }}
+
+{{ $demos_title := .Params.demos_title | default "Projects" }}
+
 <div class="talks-listing mx-auto max-w-6xl px-6 py-8">
   <h1 class="mb-10 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title }}</h1>
 
-  {{ if gt (len .Pages) 0 }}
+  {{ if gt (len $talk_pages) 0 }}
   <div class="talks-grid">
-    {{ range .Pages.ByWeight }}
+    {{ range $talk_pages }}
       {{ partial "talk_card.html" . }}
     {{ end }}
   </div>
-  {{ else }}
+  {{ else if eq (len $demo_pages) 0 }}
   <p class="text-gray-600 dark:text-gray-400">Talks and presentations will appear here.</p>
+  {{ end }}
+
+  {{ if gt (len $demo_pages) 0 }}
+  <h2 class="talks-section-heading">{{ $demos_title }}</h2>
+  <div class="talks-grid">
+    {{ range $demo_pages }}
+      {{ partial "talk_card.html" . }}
+    {{ end }}
+  </div>
   {{ end }}
 </div>
 {{ end }}
