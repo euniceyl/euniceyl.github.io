@@ -414,9 +414,10 @@
           {{ $education = $education_raw }}
         {{ end }}
         {{ if gt (len $education) 0 }}
-        <div class="mb-16">
-          <div class="flex items-center gap-4 mb-8">
-            <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+        <div class="bio-timeline-section">
+          <div class="bio-timeline-line" aria-hidden="true"></div>
+          <div class="bio-timeline-header">
+            <div class="bio-timeline-header-icon">
               {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
             </div>
             {{ $education_heading := i18n "education" }}
@@ -427,17 +428,14 @@
                 {{ $education_heading = $education_heading_raw }}
               {{ end }}
             {{ end }}
-            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $education_heading | markdownify }}</h3>
+            <h3 class="bio-timeline-heading">{{ $education_heading | markdownify }}</h3>
           </div>
-          <div class="bio-timeline relative">
-            <div class="bio-timeline-line" aria-hidden="true"></div>
-            <div class="bio-timeline-items space-y-6">
+          <div class="bio-timeline-items">
               {{ range $education }}
                 {{ if reflect.IsMap . }}
                   {{ partial "bio_timeline_item.html" (dict "page" $page "item" . "kind" "education") }}
                 {{ end }}
               {{ end }}
-            </div>
           </div>
         </div>
         {{ end }}
@@ -451,9 +449,10 @@
           {{ $experience = slice $experience_raw }}
         {{ end }}
         {{ if gt (len $experience) 0 }}
-        <div class="mb-16">
-          <div class="flex items-center gap-4 mb-8">
-            <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+        <div class="bio-timeline-section">
+          <div class="bio-timeline-line" aria-hidden="true"></div>
+          <div class="bio-timeline-header">
+            <div class="bio-timeline-header-icon">
               {{ partial "functions/get_icon" (dict "name" "beaker" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
             </div>
             {{ $experience_heading := "Research Experience" }}
@@ -464,17 +463,14 @@
                 {{ $experience_heading = $experience_heading_raw }}
               {{ end }}
             {{ end }}
-            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $experience_heading | markdownify }}</h3>
+            <h3 class="bio-timeline-heading">{{ $experience_heading | markdownify }}</h3>
           </div>
-          <div class="bio-timeline relative">
-            <div class="bio-timeline-line" aria-hidden="true"></div>
-            <div class="bio-timeline-items space-y-6">
+          <div class="bio-timeline-items">
               {{ range $experience }}
                 {{ if reflect.IsMap . }}
                   {{ partial "bio_timeline_item.html" (dict "page" $page "item" . "kind" "experience") }}
                 {{ end }}
               {{ end }}
-            </div>
           </div>
         </div>
         {{ end }}

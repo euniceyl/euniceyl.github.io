@@ -46,15 +46,68 @@
   }
 
   /* Education & experience timeline cards */
-  #section-resume-biography-3 .bio-timeline {
+  #section-resume-biography-3 .bio-timeline-section {
     position: relative;
+    margin-bottom: 4rem;
   }
 
+  #section-resume-biography-3 .bio-timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  #section-resume-biography-3 .bio-timeline-header-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background: rgb(219 234 254);
+    position: relative;
+    z-index: 2;
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-header-icon {
+    background: rgb(30 58 138 / 0.5);
+  }
+
+  #section-resume-biography-3 .bio-timeline-heading {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: rgb(17 24 39);
+  }
+
+  @media (min-width: 640px) {
+    #section-resume-biography-3 .bio-timeline-heading {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    #section-resume-biography-3 .bio-timeline-heading {
+      font-size: 1.875rem;
+    }
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-heading {
+    color: rgb(255 255 255);
+  }
+
+  /* Line centered on header icon (48px icon → 24px center) */
   #section-resume-biography-3 .bio-timeline-line {
     position: absolute;
-    left: 22px;
-    top: 2rem;
-    bottom: 2rem;
+    left: calc(1.5rem - 1px);
+    top: 3rem;
+    bottom: 0;
     width: 2px;
     background: linear-gradient(
       to bottom,
@@ -79,6 +132,9 @@
   #section-resume-biography-3 .bio-timeline-items {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   #section-resume-biography-3 .bio-timeline-item {
@@ -86,7 +142,87 @@
     z-index: 1;
   }
 
-  #section-resume-biography-3 .bio-timeline-item:last-child {
-    padding-bottom: 0;
+  #section-resume-biography-3 .bio-timeline-card {
+    border-radius: 0.75rem;
+    border: 1px solid rgb(229 231 235);
+    background: rgb(255 255 255);
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  #section-resume-biography-3 .bio-timeline-card:hover {
+    border-color: rgb(191 219 254);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-card {
+    border-color: rgb(55 65 81);
+    background: rgb(17 24 39);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-card:hover {
+    border-color: rgb(29 78 216);
+  }
+
+  #section-resume-biography-3 .bio-timeline-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    #section-resume-biography-3 .bio-timeline-card-header {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+  }
+
+  #section-resume-biography-3 .bio-timeline-card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: rgb(17 24 39);
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-card-title {
+    color: rgb(255 255 255);
+  }
+
+  #section-resume-biography-3 .bio-timeline-card-meta {
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: rgb(107 114 128);
+    text-align: left;
+  }
+
+  @media (min-width: 640px) {
+    #section-resume-biography-3 .bio-timeline-card-meta {
+      text-align: right;
+    }
+  }
+
+  #section-resume-biography-3 .bio-timeline-card-meta p {
+    margin: 0;
+  }
+
+  #section-resume-biography-3 .bio-timeline-card-details {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgb(55 65 81);
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-card-details {
+    color: rgb(209 213 219);
+  }
+
+  #section-resume-biography-3 .bio-timeline-card-details p {
+    margin: 0.125rem 0 0;
   }
 </style>

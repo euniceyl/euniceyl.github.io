@@ -2,8 +2,6 @@
 {{ $page := .page }}
 {{ $item := .item }}
 {{ $kind := .kind | default "education" }}
-{{ $icon := "academic-cap" }}
-{{ if eq $kind "experience" }}{{ $icon = "beaker" }}{{ end }}
 
 {{ $title := "" }}
 {{ $location := "" }}
@@ -16,9 +14,6 @@
   {{ with index $item "location" }}{{ $location = printf "%v" . }}{{ end }}
   {{ with index $item "start" }}{{ $start = printf "%v" . }}{{ end }}
   {{ with index $item "end" }}{{ $end = printf "%v" . }}{{ end }}
-
-  {{ $iconRaw := index $item "icon" }}
-  {{ if eq (printf "%T" $iconRaw) "string" }}{{ $icon = $iconRaw }}{{ end }}
 
   {{ $details_raw := index $item "details" }}
   {{ if reflect.IsSlice $details_raw }}
@@ -43,9 +38,6 @@
   {{ if not $start }}{{ with index $item "date_start" }}{{ $start = printf "%v" . }}{{ end }}{{ end }}
   {{ with index $item "end" }}{{ $end = printf "%v" . }}{{ end }}
   {{ if not $end }}{{ with index $item "date_end" }}{{ $end = printf "%v" . }}{{ end }}{{ end }}
-
-  {{ $iconRaw := index $item "icon" }}
-  {{ if eq (printf "%T" $iconRaw) "string" }}{{ $icon = $iconRaw }}{{ end }}
 
   {{ $details_raw := index $item "details" }}
   {{ if reflect.IsSlice $details_raw }}
@@ -78,20 +70,14 @@
   {{ $dates = printf "%s – %s" $dates (cond $end $end (i18n "present" | default "Present")) }}
 {{ end }}
 
-<div class="bio-timeline-item relative pl-10 sm:pl-12">
-  <div class="bio-timeline-dot absolute left-[3px] sm:left-[5px] top-7 z-[2] flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary-500 bg-white shadow-sm ring-4 ring-[var(--hb-color-background)] dark:bg-gray-900 dark:ring-gray-900">
-    {{ partial "functions/get_icon" (dict "name" $icon "attributes" "class='h-4 w-4 text-primary-600 dark:text-primary-400'") }}
-  </div>
-
-  <div class="group rounded-xl border border-transparent bg-gradient-to-br from-white/90 to-primary-50/30 p-6 shadow-md backdrop-blur-md transition-all duration-300 hover:border-primary-200 hover:shadow-xl dark:from-gray-800/90 dark:to-primary-900/20 dark:hover:border-primary-800">
-    <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+<div class="bio-timeline-item">
+  <div class="bio-timeline-card">
+    <div class="bio-timeline-card-header">
       {{ if $title }}
-      <p class="text-xl font-bold leading-snug text-gray-900 transition-colors group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
-        {{ $title }}
-      </p>
+      <p class="bio-timeline-card-title">{{ $title }}</p>
       {{ end }}
       {{ if or $location $dates }}
-      <div class="shrink-0 text-sm leading-snug text-gray-500 dark:text-gray-400 sm:text-right">
+      <div class="bio-timeline-card-meta">
         {{ if $location }}<p>{{ $location }}</p>{{ end }}
         {{ if $dates }}<p>{{ $dates }}</p>{{ end }}
       </div>
@@ -99,7 +85,7 @@
     </div>
 
     {{ if gt (len $details) 0 }}
-    <div class="mt-2 space-y-0.5 text-base leading-relaxed text-gray-700 dark:text-gray-300">
+    <div class="bio-timeline-card-details">
       {{ range $details }}
       <p>{{ . | emojify | $page.RenderString }}</p>
       {{ end }}
