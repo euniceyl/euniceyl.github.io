@@ -1,0 +1,60 @@
+{{/* Flip through slide images in the talk page bundle (slides/*.png, etc.). */}}
+{{ $page := . }}
+{{ $images := sort ($page.Resources.Match "slides/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}") "Name" }}
+
+{{ if gt (len $images) 0 }}
+  {{ $page.Store.Set "has_alpine" true }}
+  {{ $urls := slice }}
+  {{ range $images }}
+    {{ $urls = $urls | append .RelPermalink }}
+  {{ end }}
+
+<div
+  class="talk-slide-deck"
+  x-data="{
+    urls: {{ $urls | jsonify }},
+    index: 0,
+    prev() { if (this.index > 0) this.index-- },
+    next() { if (this.index < this.urls.length - 1) this.index++ }
+  }"
+  @keydown.arrow-left.window="prev()"
+  @keydown.arrow-right.window="next()"
+>
+  <div class="talk-slide-deck-viewport">
+    <template x-for="(url, i) in urls" :key="url">
+      <img
+        :src="url"
+        alt="{{ $page.Title | plainify }} — slide"
+        class="talk-slide-deck-image"
+        x-show="index === i"
+        x-cloak
+        loading="lazy"
+        decoding="async"
+      />
+    </template>
+
+    <button
+      type="button"
+      class="talk-slide-deck-nav talk-slide-deck-nav--prev"
+      @click="prev()"
+      :disabled="index === 0"
+      aria-label="Previous slide"
+    >
+      ‹
+    </button>
+    <button
+      type="button"
+      class="talk-slide-deck-nav talk-slide-deck-nav--next"
+      @click="next()"
+      :disabled="index === urls.length - 1"
+      aria-label="Next slide"
+    >
+      ›
+    </button>
+  </div>
+
+  <p class="talk-slide-deck-counter">
+    <span x-text="index + 1"></span> / <span x-text="urls.length"></span>
+  </p>
+</div>
+{{ end }}

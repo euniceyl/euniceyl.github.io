@@ -28,6 +28,8 @@
   </div>
 {{ else if $slides_slug }}
   {{ partial "components/slides-embed.html" (dict "page" $page "slides_slug" $slides_slug "show_actions" false "title" ($page.Title | plainify)) }}
+{{ else if gt (len ($page.Resources.Match "slides/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}")) 0 }}
+  {{ partial "talk_slide_deck.html" $page }}
 {{ else if $featured }}
   <figure class="talk-poster">
     {{ $poster_link := $page.RelPermalink }}

@@ -8,4 +8,6 @@ event:
   year: 2025
   label: "Invited Talk @ VUES on Spatial Biology Seminar Series"
   venue: "Harvard Medical School DBMI · Boston, MA"
+video:
+  url: https://www.youtube.com/watch?v=0iMb0WD6SCo
 ---

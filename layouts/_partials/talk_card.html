@@ -28,7 +28,8 @@
   {{ end }}
 {{ end }}
 
-{{ $is_poster := or (eq $kind "poster") (and (not $page.Params.slides) (not $page.Params.slides_embed) (not $video_url)) }}
+{{ $slide_deck_images := $page.Resources.Match "slides/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}" }}
+{{ $is_poster := or (eq $kind "poster") (and (not $page.Params.slides) (not $page.Params.slides_embed) (not $video_url) (eq (len $slide_deck_images) 0)) }}
 
 <article class="talk-card">
   <header class="talk-card-header">
@@ -47,7 +48,7 @@
     {{ end }}
   </header>
 
-  <div class="talk-card-media{{ if $is_poster }} talk-card-media--poster{{ end }}">
+  <div class="talk-card-media{{ if $is_poster }} talk-card-media--poster{{ else if gt (len $slide_deck_images) 0 }} talk-card-media--deck{{ end }}">
     {{ partial "talk_card_media.html" $page }}
   </div>
 </article>
