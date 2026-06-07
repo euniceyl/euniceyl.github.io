@@ -429,56 +429,52 @@
             {{ end }}
             <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $education_heading | markdownify }}</h3>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {{ range $education }}
-            {{ if reflect.IsMap . }}
-            {{ $degree := "" }}
-            {{ $degreeRaw := index . "degree" | default (index . "area") }}
-            {{ if ne $degreeRaw nil }}{{ $degree = printf "%v" $degreeRaw }}{{ end }}
-            {{ $year := "" }}
-            {{ with index . "year" }}{{ $year = printf "%v" . }}{{ end }}
-            {{ $start := "" }}
-            {{ with index . "start" }}{{ $start = printf "%v" . }}{{ end }}
-            {{ $end := "" }}
-            {{ with index . "end" }}{{ $end = printf "%v" . }}{{ end }}
-            {{ $institution := "" }}
-            {{ with index . "institution" }}{{ $institution = printf "%v" . }}{{ end }}
-            {{ $icon := "" }}
-            {{ $iconRaw := index . "icon" }}
-            {{ if eq (printf "%T" $iconRaw) "string" }}
-              {{ $icon = $iconRaw }}
-            {{ end }}
-            <div class="group h-full flex flex-col bg-gradient-to-br from-white/90 to-primary-50/30 dark:from-gray-800/90 dark:to-primary-900/20 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-transparent hover:border-primary-200 dark:hover:border-primary-800 backdrop-blur-md">
-              <div class="flex gap-4">
-                <div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-gray-700 rounded-full flex items-center justify-center shadow-md">
-                  {{ if $icon }}
-                    {{ partial "functions/get_icon" (dict "name" $icon "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
-                  {{ else }}
-                    {{ partial "functions/get_icon" (dict "name" "academic-cap" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
-                  {{ end }}
-                </div>
-                <div class="flex-1 flex-grow">
-                  {{ if $degree }}
-                  <p class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {{ $degree }}
-                  </p>
-                  {{ end }}
-                  {{ if $year }}
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">{{ $year }}</p>
-                  {{ else if $start }}
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
-                      {{ $start }}
-                      {{ if $end }}<br>{{ $end }}{{ end }}
-                    </p>
-                  {{ end }}
-                  {{ if $institution }}
-                    <p class="text-gray-700 dark:text-gray-300 text-base">{{ $institution }}</p>
-                  {{ end }}
-                </div>
-              </div>
+          <div class="bio-timeline relative">
+            <div class="bio-timeline-line" aria-hidden="true"></div>
+            <div class="bio-timeline-items space-y-6">
+              {{ range $education }}
+                {{ if reflect.IsMap . }}
+                  {{ partial "bio_timeline_item.html" (dict "page" $page "item" . "kind" "education") }}
+                {{ end }}
+              {{ end }}
             </div>
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* Research Experience Section */}}
+        {{ $experience_raw := or $profile.experience $profile.work }}
+        {{ $experience := slice }}
+        {{ if reflect.IsSlice $experience_raw }}
+          {{ $experience = $experience_raw }}
+        {{ else if and $experience_raw (reflect.IsMap $experience_raw) }}
+          {{ $experience = slice $experience_raw }}
+        {{ end }}
+        {{ if gt (len $experience) 0 }}
+        <div class="mb-16">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+              {{ partial "functions/get_icon" (dict "name" "beaker" "attributes" "class='w-6 h-6 text-primary-600 dark:text-primary-400'") }}
+            </div>
+            {{ $experience_heading := "Research Experience" }}
+            {{ $experience_heading_raw := index $headings "experience" }}
+            {{ if eq (printf "%T" $experience_heading_raw) "string" }}
+              {{ $experience_heading_raw = strings.TrimSpace $experience_heading_raw }}
+              {{ if ne $experience_heading_raw "" }}
+                {{ $experience_heading = $experience_heading_raw }}
+              {{ end }}
             {{ end }}
-            {{ end }}
+            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{{ $experience_heading | markdownify }}</h3>
+          </div>
+          <div class="bio-timeline relative">
+            <div class="bio-timeline-line" aria-hidden="true"></div>
+            <div class="bio-timeline-items space-y-6">
+              {{ range $experience }}
+                {{ if reflect.IsMap . }}
+                  {{ partial "bio_timeline_item.html" (dict "page" $page "item" . "kind" "experience") }}
+                {{ end }}
+              {{ end }}
+            </div>
           </div>
         </div>
         {{ end }}

@@ -44,4 +44,49 @@
   #section-resume-biography-3 .avatar {
     border-radius: 9999px !important;
   }
+
+  /* Education & experience timeline cards */
+  #section-resume-biography-3 .bio-timeline {
+    position: relative;
+  }
+
+  #section-resume-biography-3 .bio-timeline-line {
+    position: absolute;
+    left: 22px;
+    top: 2rem;
+    bottom: 2rem;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      rgb(147 197 253),
+      rgb(96 165 250),
+      rgb(147 197 253)
+    );
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .dark #section-resume-biography-3 .bio-timeline-line {
+    background: linear-gradient(
+      to bottom,
+      rgb(29 78 216),
+      rgb(37 99 235),
+      rgb(29 78 216)
+    );
+  }
+
+  #section-resume-biography-3 .bio-timeline-items {
+    position: relative;
+    z-index: 1;
+  }
+
+  #section-resume-biography-3 .bio-timeline-item {
+    position: relative;
+    z-index: 1;
+  }
+
+  #section-resume-biography-3 .bio-timeline-item:last-child {
+    padding-bottom: 0;
+  }
 </style>

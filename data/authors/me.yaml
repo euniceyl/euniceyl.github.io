@@ -11,6 +11,53 @@ role: Associate of Biomedical Informatics @ Harvard Medical School
 bio: |
   TBD (will include hyperlinks)
 
+education:
+  - institution: Duke University
+    location: Durham, NC
+    start: Aug 2022
+    end: May 2026
+    details:
+      - B.S. in Statistical Science with Concentration in Data Science
+      - Minor in Computational Biology & Bioinformatics
+      - Minor in Chemistry
+  - institution: North London Collegiate School Jeju
+    location: Jeju-do, South Korea
+    start: Aug 2018
+    end: Jun 2022
+    details:
+      - High school
+
+experience:
+  - org: HIDIVE Lab, Harvard Medical School
+    location: Boston, MA
+    start: Jun 2025
+    role: Undergraduate research fellow
+  - org: Bass Connections, Duke-UNC Brain Imaging and Analysis Center x Durham VA Healthcare Center
+    location: Durham, NC
+    start: Jun 2023
+    end: Apr 2026
+    role: Clinical trial research assistant
+  - org: Hagood Lab x LOCI Lab, Chan Zuckerberg Initiative
+    location: Chapel Hill, NC & Richmond, VA
+    start: Feb 2025
+    end: Dec 2025
+    role: Bioinformatics research assistant
+  - org: Angelo Lab, Stanford Medicine
+    location: Palo Alto, CA
+    start: Dec 2024
+    end: Nov 2025
+    role: Bioinformatics research assistant
+  - org: Nguyen Lab, Stanford Medicine
+    location: Palo Alto, CA
+    start: Jun 2019
+    end: Dec 2024
+    role: Hepatology research intern
+  - org: Machine Learning & Fluid Mechanics Lab, Kyungpook National University
+    location: Daegu, South Korea
+    start: Jun 2020
+    end: Aug 2020
+    role: AI/ML research intern
+
 links:
   - icon: at-symbol
     url: mailto:eunice_lee@hms.harvard.edu
