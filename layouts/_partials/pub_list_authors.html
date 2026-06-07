@@ -7,7 +7,7 @@
   {{ range $index, $raw := $authors }}
     {{- $slug := $raw | urlize -}}
     {{- $profile := partial "functions/get_author_profile" (dict "slug" $slug "title" $raw) -}}
-    {{- $display := $profile.title | default $raw -}}
+    {{- $display := $profile.name_display | default $profile.title | default $raw -}}
     {{- $is_me := or (eq $slug "me") (eq $profile.slug "me") -}}
     {{- $author_note := "" -}}
     {{- if isset $.Params "author_notes" -}}

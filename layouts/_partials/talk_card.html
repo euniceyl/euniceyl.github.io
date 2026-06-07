@@ -33,8 +33,14 @@
 <article class="talk-card">
   <header class="talk-card-header">
     <h2 class="talk-card-label">{{ $card_label }}</h2>
+    {{ with $page.Params.titles }}
+      {{ range $i, $t := . }}
+    <p class="talk-card-title">({{ add $i 1 }}) {{ $t | plainify }}</p>
+      {{ end }}
+    {{ else }}
     {{ with $page.Title }}
     <p class="talk-card-title">{{ . | plainify }}</p>
+    {{ end }}
     {{ end }}
     {{ with $event.venue }}
     <p class="talk-card-venue">{{ . | plainify }}</p>

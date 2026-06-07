@@ -1,6 +1,7 @@
 ---
 title: "Trends of Chronic Liver Diseases by Income Level and Socioeconomic Factors in the U.S. National Population"
 date: 2023-11-10
+weight: 5
 event:
   kind: poster
   name: The Liver Meeting

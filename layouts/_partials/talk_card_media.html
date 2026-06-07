@@ -31,8 +31,10 @@
 {{ else if $featured }}
   <figure class="talk-poster">
     {{ $poster_link := $page.RelPermalink }}
-    {{ range first 1 $page.Params.links }}
-      {{ with .url }}{{ $poster_link = . }}{{ end }}
+    {{ with $page.Params.links }}
+      {{ range first 1 . }}
+        {{ with .url }}{{ $poster_link = . }}{{ end }}
+      {{ end }}
     {{ end }}
     <a href="{{ $poster_link }}" class="talk-poster-link">
       <img

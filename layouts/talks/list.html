@@ -4,7 +4,7 @@
 
   {{ if gt (len .Pages) 0 }}
   <div class="talks-grid">
-    {{ range .Pages.ByDate.Reverse }}
+    {{ range .Pages.ByWeight }}
       {{ partial "talk_card.html" . }}
     {{ end }}
   </div>

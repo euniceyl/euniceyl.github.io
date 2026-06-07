@@ -6,25 +6,27 @@ authors:
   - Clarence Yapp
   - Zoltan Maliga
   - Luca Marconato
+  - Felix Zhou
   - Tuulia Vallius
   - Alex Wong
   - Peter Sorger
   - Nils Gehlenborg
   - Eric Mörth
 author_notes:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
   - Corresponding author
   - Corresponding author
 publication_types: ["thesis"]
 publication:
-  name: "Bachelor's thesis with Distinction"
-  short_name: "B.S. thesis with Distinction"
+  name: "Bachelor's Thesis: Graduation with High Distinction"
+  short_name: "Bachelor's Thesis: Graduation with High Distinction"
   publisher: "Department of Statistical Science, Duke University"
 awards:
   - name: Graduation with Distinction
