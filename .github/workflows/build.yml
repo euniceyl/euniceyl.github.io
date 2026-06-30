@@ -78,7 +78,11 @@ jobs:
         # npm (not pnpm) — Hugo's css.TailwindCSS needs a real Node script on Linux CI
         if [ -f "package.json" ]; then
           echo "Installing Tailwind dependencies..."
-          npm install
+          if [ -f "package-lock.json" ]; then
+            npm ci --include=optional
+          else
+            npm install --include=optional
+          fi
         fi
 
     - name: Verify Tailwind CSS dependency
@@ -88,6 +92,11 @@ jobs:
           echo "::error title=Missing dependency '@tailwindcss/cli'::Hugo >= 0.161.0 requires the npm @tailwindcss/cli package. Add it to package.json:"
           echo "::error::  npm install @tailwindcss/cli tailwindcss"
           echo "::error::See https://github.com/HugoBlox/kit for upgrade instructions."
+          exit 1
+        fi
+        if ! node -e "require('@parcel/watcher-linux-x64-glibc')" 2>/dev/null; then
+          echo "::error title=Missing @parcel/watcher-linux-x64-glibc::Linux CI needs this optional dependency for Hugo Tailwind builds."
+          echo "::error::  npm install --save-optional @parcel/watcher-linux-x64-glibc"
           exit 1
         fi
 
