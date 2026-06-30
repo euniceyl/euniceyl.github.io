@@ -1,8 +1,9 @@
 ---
 # Leave the homepage title empty to use the site title
 title: ''
-summary: ''
+summary: 'Eunice Lee is a computational scientist and Associate in Biomedical Informatics at Harvard Medical School, researching spatial biology, precision oncology, and machine learning.'
 date: 2022-10-24
+lastmod: 2026-06-30
 type: landing
 
 sections:

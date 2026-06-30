@@ -2,10 +2,10 @@ schema: hugoblox/author/v1
 slug: me
 is_owner: true
 name:
-  display: Eunice Yewon Lee
+  display: Eunice Lee
   given: Eunice
   family: Lee
-  alternate: ''
+  alternate: Eunice Yewon Lee
   pronunciation: ''
 role: Associate in Biomedical Informatics<br>@ Harvard Medical School
 bio: |

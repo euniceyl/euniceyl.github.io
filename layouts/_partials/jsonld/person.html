@@ -1,0 +1,76 @@
+{{/* Person schema for academic profile homepages (identity.type: person). */}}
+{{- $authors := partialCached "functions/get_authors_data" . site.Language.Lang -}}
+{{- $ownerSlug := "me" -}}
+{{- range $slug, $data := $authors -}}
+  {{- if or ($data.is_owner) ($data.superuser) -}}
+    {{- $ownerSlug = $slug -}}
+  {{- end -}}
+{{- end -}}
+{{- $profile := partial "functions/get_author_profile" $ownerSlug -}}
+{{- $branding := partialCached "functions/get_branding" . "branding" -}}
+{{- $sharing_image := resources.GetMatch (path.Join "media" "sharing.*") -}}
+{{- $sameAs := slice -}}
+{{- $email := "" -}}
+{{- range $profile.links -}}
+  {{- $url := .url | default "" -}}
+  {{- if $url -}}
+    {{- if hasPrefix $url "mailto:" -}}
+      {{- $email = strings.TrimPrefix "mailto:" $url -}}
+    {{- else if not (hasPrefix $url "tel:") -}}
+      {{- $sameAs = $sameAs | append $url -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $alternateNames := slice -}}
+{{- if $profile.name_alternate -}}
+  {{- $alternateNames = $alternateNames | append $profile.name_alternate -}}
+{{- end -}}
+{{- if and $profile.name_display (ne $profile.name_display $branding.name) -}}
+  {{- $alternateNames = $alternateNames | append $profile.name_display -}}
+{{- end -}}
+{{- $image := "" -}}
+{{- with $profile.avatar -}}
+  {{- $image = .Permalink -}}
+{{- else -}}
+  {{- with $sharing_image -}}
+    {{- $image = .Permalink -}}
+  {{- end -}}
+{{- end -}}
+{{- $description := site.Params.hugoblox.identity.description | default $branding.description -}}
+{{- $knowsAbout := slice "spatial biology" "precision oncology" "statistical machine learning" "computational biology" "biomedical informatics" -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": {{ printf "%s#person" site.BaseURL }},
+  "name": {{ $branding.name }},
+  {{- with $alternateNames }}
+  "alternateName": {{ . }},
+  {{- end }}
+  "url": {{ site.BaseURL }},
+  {{- with $image }}
+  "image": {{ . }},
+  {{- end }}
+  {{- with (plainify $profile.role) }}
+  "jobTitle": {{ . }},
+  {{- end }}
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Harvard Medical School",
+    "url": "https://hms.harvard.edu/"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Duke University",
+    "url": "https://duke.edu/"
+  },
+  "knowsAbout": {{ $knowsAbout }},
+  {{- with $email }}
+  "email": {{ . }},
+  {{- end }}
+  {{- with $sameAs }}
+  "sameAs": {{ . }},
+  {{- end }}
+  "description": {{ $description }}
+}
+</script>

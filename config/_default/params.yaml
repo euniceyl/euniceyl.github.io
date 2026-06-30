@@ -21,7 +21,7 @@ hugoblox:
     # Short tagline displayed on your site
     tagline: ""
     # Site meta description for search engines and social sharing
-    description: "Associate in Biomedical Informatics at Harvard Medical School."
+    description: "Eunice Lee (Eunice Yewon Lee) — computational scientist and Associate in Biomedical Informatics at Harvard Medical School. Research in spatial biology, precision oncology, and statistical machine learning."
     # Social accounts (used for meta tags like Twitter Cards)
     social:
       twitter: "" # optional — set your @handle for Twitter/X cards
@@ -124,7 +124,7 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   seo:
     # Browser tab title override (defaults to identity.name if not set)
-    title: ""
+    title: "Eunice Lee | Computational Scientist, Harvard Medical School"
     # For local_business identity type only
     location:
       address:
@@ -142,8 +142,8 @@ hugoblox:
       allow:
         - /
       disallow: []
-      note: "Guidance for AI crawlers - customize to match your public content."
-      contact: ""
+      note: "Academic website of Eunice Lee (Eunice Yewon Lee), computational scientist at Harvard Medical School."
+      contact: "eunice_lee@hms.harvard.edu"
 
   # ────────────────────────────────────────────────────────────────────────────
   # CONTENT
@@ -214,7 +214,7 @@ hugoblox:
   # Search engine site verification codes
   # ────────────────────────────────────────────────────────────────────────────
   verification:
-    google: ""
+    google: "7691e41096d3ce74"
     bing: ""
     baidu: ""
     yandex: ""
@@ -226,8 +226,8 @@ hugoblox:
   # Source code repository for "Edit this page" links
   # ────────────────────────────────────────────────────────────────────────────
   repository:
-    enable: false
-    url: "" # e.g., https://github.com/username/repo
+    enable: true
+    url: "https://github.com/euniceyl/euniceyl.github.io"
     branch: main
     content_dir: content
 
