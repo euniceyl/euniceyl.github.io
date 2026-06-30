@@ -11,8 +11,8 @@ sections:
       username: me
       headings:
         about: ' '
-        education: Education
         experience: Research Experience
+        education: Education
     design:
       show_status: false
       background:
