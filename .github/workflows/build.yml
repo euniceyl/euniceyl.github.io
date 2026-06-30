@@ -85,6 +85,7 @@ jobs:
             npm install --include=optional
           fi
           npm install --no-save --include=optional \
+            @pagefind/linux-x64 \
             @parcel/watcher-linux-x64-glibc \
             @tailwindcss/oxide-linux-x64-gnu \
             lightningcss-linux-x64-gnu
@@ -99,7 +100,7 @@ jobs:
           echo "::error::See https://github.com/HugoBlox/kit for upgrade instructions."
           exit 1
         fi
-        for pkg in @parcel/watcher-linux-x64-glibc @tailwindcss/oxide-linux-x64-gnu lightningcss-linux-x64-gnu; do
+        for pkg in @pagefind/linux-x64 @parcel/watcher-linux-x64-glibc @tailwindcss/oxide-linux-x64-gnu lightningcss-linux-x64-gnu; do
           if ! node -e "require('$pkg')" 2>/dev/null; then
             echo "::error title=Missing $pkg::Linux CI needs this optional dependency for Hugo Tailwind builds."
             exit 1
@@ -135,9 +136,9 @@ jobs:
 
     - name: Generate Pagefind search index (if applicable)
       run: |
-        # Check if site uses Pagefind search
+        # Use the locally installed pagefind binary (npx tries to re-download and fails on CI)
         if [ -f "package.json" ] && grep -q "pagefind" package.json; then
-          npx pagefind --site "public"
+          npm run pagefind
         fi
 
     - name: Upload artifact
