@@ -75,7 +75,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        # npm (not pnpm) — Hugo's css.TailwindCSS needs a real Node script on Linux CI
+        # npm (not pnpm) — Hugo's css.TailwindCSS needs Linux native binaries on CI.
+        # Lockfiles generated on macOS omit Linux optional deps, so install them explicitly.
         if [ -f "package.json" ]; then
           echo "Installing Tailwind dependencies..."
           if [ -f "package-lock.json" ]; then
@@ -83,6 +84,10 @@ jobs:
           else
             npm install --include=optional
           fi
+          npm install --no-save --include=optional \
+            @parcel/watcher-linux-x64-glibc \
+            @tailwindcss/oxide-linux-x64-gnu \
+            lightningcss-linux-x64-gnu
         fi
 
     - name: Verify Tailwind CSS dependency
@@ -94,11 +99,12 @@ jobs:
           echo "::error::See https://github.com/HugoBlox/kit for upgrade instructions."
           exit 1
         fi
-        if ! node -e "require('@parcel/watcher-linux-x64-glibc')" 2>/dev/null; then
-          echo "::error title=Missing @parcel/watcher-linux-x64-glibc::Linux CI needs this optional dependency for Hugo Tailwind builds."
-          echo "::error::  npm install --save-optional @parcel/watcher-linux-x64-glibc"
-          exit 1
-        fi
+        for pkg in @parcel/watcher-linux-x64-glibc @tailwindcss/oxide-linux-x64-gnu lightningcss-linux-x64-gnu; do
+          if ! node -e "require('$pkg')" 2>/dev/null; then
+            echo "::error title=Missing $pkg::Linux CI needs this optional dependency for Hugo Tailwind builds."
+            exit 1
+          fi
+        done
 
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v3
@@ -117,6 +123,15 @@ jobs:
       run: |
         rm -rf resources
         hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        if [ ! -f public/index.html ]; then
+          echo "::error::Hugo did not generate public/index.html — homepage build failed."
+          exit 1
+        fi
+        if grep -q "The Academic CV That Gets You Hired" public/index.html; then
+          echo "::error::Homepage contains template README content instead of your custom site."
+          exit 1
+        fi
+        touch public/.nojekyll
 
     - name: Generate Pagefind search index (if applicable)
       run: |
