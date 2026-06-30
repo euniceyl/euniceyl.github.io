@@ -21,7 +21,7 @@ hugoblox:
     # Short tagline displayed on your site
     tagline: ""
     # Site meta description for search engines and social sharing
-    description: "Associate of Biomedical Informatics at Harvard Medical School."
+    description: "Associate in Biomedical Informatics at Harvard Medical School."
     # Social accounts (used for meta tags like Twitter Cards)
     social:
       twitter: "" # optional — set your @handle for Twitter/X cards
